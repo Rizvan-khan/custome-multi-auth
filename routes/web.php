@@ -20,6 +20,14 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->middleware('auth:web')->name('welcome');
 
+Route::middleware('auth')->group(function () {
+    Route::resource('posts', App\Http\Controllers\PostController::class);
+    
+});
+Route::get('/welcome', [App\Http\Controllers\PostController::class, 'index'])
+    ->middleware('auth:web')
+    ->name('welcome');
+
 
 Route::get('register', [App\Http\Controllers\Auth\UserAuthController::class, 'showRegisterForm'])->name('auth.register');
 Route::post('register', [App\Http\Controllers\Auth\UserAuthController::class, 'register']);
